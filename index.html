@@ -1,74 +1,93 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <title>قرآن كريم</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 body{
+  font-family: "Tahoma", Arial, sans-serif;
   margin:0;
-  font-family:Tahome, Arial;
-  background:linear-gradient(to bottom,#0f2027,#203a43,#2c5364);
+  padding:0;
+  background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
   color:#fff;
 }
 header{
-  background:#081c2d;
-  padding:15px;
+  background:#0b3d2e;
+  padding:30px 20px;
   text-align:center;
+  box-shadow:0 4px 10px rgba(0,0,0,0.5);
+}
+header h1{
+  font-size:38px;
   color:#ffd700;
-  font-size:26px;
+  margin:0;
+  text-shadow:2px 2px 4px #000;
 }
-.controls{
-  padding:10px;
-  text-align:center;
+header p{
+  margin:5px 0 0;
+  font-size:16px;
+  color:#f0f0f0;
 }
-select, input, button{
-  padding:10px;
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:30px 20px;
+}
+label{
+  font-size:18px;
+  display:block;
+  margin-bottom:10px;
+}
+select{
+  width:100%;
+  padding:12px;
+  font-size:16px;
   border-radius:8px;
   border:none;
-  margin:5px;
+  margin-bottom:20px;
+  outline:none;
 }
-button{
-  background:#ffd700;
-  font-weight:bold;
+audio{
+  width:100%;
+  margin-top:20px;
+  border-radius:6px;
 }
-.surah{
-  background:rgba(255,255,255,0.12);
-  margin:12px;
-  padding:12px;
-  border-radius:12px;
-}
-audio{width:100%;}
 footer{
+  background:#0b3d2e;
   text-align:center;
   padding:15px;
-  font-size:14px;
-  color:#ccc;
+  font-size:16px;
+  color:#fff;
+  box-shadow:0 -4px 6px rgba(0,0,0,0.3);
+}
+@media(max-width:600px){
+  header h1{ font-size:28px; }
+  label, select{ font-size:16px; }
 }
 </style>
-</head>
 
 <body>
 
-<header>📖 قرآن كريم</header>
+<header>
+  <h1>📖 قرآن كريم</h1>
+  <p>بصوت الشيخ ماهر المعيقلي</p>
+</header>
 
-<div class="controls">
-  <p>مرحبًا بك في المصحف الشريف</p>
-
+<div class="container">
+  <label>اختر السورة:</label>
   <select id="surahSelect"></select>
-  <button onclick="stopAll()">⏹ إيقاف الصوت</button>
+  <audio id="player" controls>
+    المتصفح لا يدعم تشغيل الصوت
+  </audio>
 </div>
 
-<div id="quran"></div>
-
 <footer>
-  المصحف كامل بصوت الشيخ ماهر المعيقلي<br>
-  تطوير: أبو سيف بن فاتح
+  تطوير: عمر بن فاتح
 </footer>
 
 <script>
-const surahNames=[
+const surahs = [
 "الفاتحة","البقرة","آل عمران","النساء","المائدة","الأنعام","الأعراف","الأنفال","التوبة","يونس",
 "هود","يوسف","الرعد","إبراهيم","الحجر","النحل","الإسراء","الكهف","مريم","طه",
 "الأنبياء","الحج","المؤمنون","النور","الفرقان","الشعراء","النمل","القصص","العنكبوت","الروم",
@@ -83,34 +102,25 @@ const surahNames=[
 "المسد","الإخلاص","الفلق","الناس"
 ];
 
-const quran=document.getElementById("quran");
-const select=document.getElementById("surahSelect");
+const select = document.getElementById("surahSelect");
+const player = document.getElementById("player");
 
-surahNames.forEach((s,i)=>{
-  select.innerHTML+=`<option value="${i}">${i+1} - ${s}</option>`;
+surahs.forEach((name,i)=>{
+  let op = document.createElement("option");
+  op.value = (i+1).toString().padStart(3,"0");
+  op.textContent = (i+1)+" - "+name;
+  select.appendChild(op);
 });
 
-select.onchange=()=>showSurah(select.value);
+select.onchange = ()=>{
+  const num = select.value;
+  player.src = `https://everyayah.com/data/Maher_AlMuaiqly_64kbps/${num}.mp3`;
+  player.play();
+};
 
-function showSurah(i){
-  const num=String(Number(i)+1).padStart(3,"0");
-  localStorage.setItem("last",i);
-  quran.innerHTML=`
-  <div class="surah">
-    <h3>سورة ${surahNames[i]}</h3>
-    <audio controls autoplay>
-      <source src="https://cdn.islamic.network/quran/audio/128/ar.maheralmuaiqly/${num}.mp3">
-    </audio>
-  </div>`;
-}
-
-function stopAll(){
-  document.querySelectorAll("audio").forEach(a=>a.pause());
-}
-
-const last=localStorage.getItem("last");
-if(last) showSurah(last);
+select.selectedIndex = 0;
+select.onchange();
 </script>
 
 </body>
-  </html>
+</html>
