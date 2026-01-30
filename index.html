@@ -2,135 +2,45 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>القرآن الكريم</title>
-
+<title>اختبار الصوت</title>
 <style>
 body{
-  margin:0;
-  font-family:'Tahoma', Arial;
-  background:linear-gradient(160deg,#0b2c3d,#102a43);
-  color:#fff;
-}
-
-header{
-  padding:30px 15px;
+  background:#0f2027;
+  color:white;
+  font-family:tahoma;
   text-align:center;
+  padding:40px;
 }
-
-header h1{
-  font-size:42px;
-  margin:0;
-}
-
-header p{
-  font-size:20px;
-  color:#ffd369;
-}
-
-.card{
-  background:rgba(255,255,255,0.08);
-  margin:20px;
-  padding:25px;
-  border-radius:25px;
-  box-shadow:0 10px 25px rgba(0,0,0,.4);
-}
-
-label{
-  font-size:20px;
-  display:block;
-  margin-bottom:8px;
-}
-
-select,button{
-  width:100%;
-  padding:15px;
-  font-size:20px;
-  border-radius:15px;
-  border:none;
-  margin-bottom:15px;
-}
-
 button{
+  font-size:22px;
+  padding:15px 30px;
+  border:none;
+  border-radius:15px;
   background:#ffd369;
-  font-weight:bold;
 }
-
 audio{
   width:100%;
-  margin-top:10px;
-}
-
-footer{
-  text-align:center;
-  padding:20px;
-  font-size:18px;
-  opacity:.8;
+  margin-top:20px;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-<h1>📖 القرآن الكريم</h1>
-<p>تلاوة خاشعة لسور القرآن</p>
-</header>
+<h1>🔊 اختبار الصوت</h1>
+<p>سورة الفاتحة – ماهر المعيقلي</p>
 
-<div class="card">
-<label>🎙️ اختر القارئ</label>
-<select id="reciter">
-<option value="maher">ماهر المعيقلي</option>
-<option value="sudais">عبد الرحمن السديس</option>
-<option value="ajmi">أحمد العجمي</option>
-<option value="husary">الحصري</option>
-<option value="shuraim">سعود الشريم</option>
-<option value="minshawi">المنشاوي</option>
-<option value="basfar">عبدالله بصفر</option>
-</select>
+<button onclick="play()">تشغيل</button>
 
-<label>📘 اختر السورة</label>
-<select id="surah">
-<option value="001">الفاتحة</option>
-<option value="002">البقرة</option>
-<option value="003">آل عمران</option>
-<option value="004">النساء</option>
-<option value="005">المائدة</option>
-<option value="006">الأنعام</option>
-<option value="007">الأعراف</option>
-<option value="112">الإخلاص</option>
-<option value="113">الفلق</option>
-<option value="114">الناس</option>
-</select>
-
-<button onclick="play()">▶️ تشغيل السورة</button>
-
-<audio id="player" controls></audio>
-</div>
-
-<footer>
-اسم الموقع: قرآن كريم<br>
-اسم المطور: عمر أبو سيف بن فاتح
-</footer>
+<audio id="player"></audio>
 
 <script>
-const base={
-  maher:"https://download.quranicaudio.com/quran/maher_almuaiqly/",
-  sudais:"https://download.quranicaudio.com/quran/abdulrahman_as_sudais/",
-  ajmi:"https://download.quranicaudio.com/quran/ahmed_al_ajmi/",
-  husary:"https://download.quranicaudio.com/quran/mahmoud_khalil_al-husary/",
-  shuraim:"https://download.quranicaudio.com/quran/saud_ash-shuraym/",
-  minshawi:"https://download.quranicaudio.com/quran/muhammad_siddeeq_al-minshawi/",
-  basfar:"https://download.quranicaudio.com/quran/abdullah_basfar/"
-};
-
 function play(){
-  const r=document.getElementById("reciter").value;
-  const s=document.getElementById("surah").value;
   const p=document.getElementById("player");
-  p.src=base[r]+s+".mp3";
+  p.src="https://download.quranicaudio.com/quran/maher_almuaiqly/001.mp3";
   p.play();
 }
 </script>
 
 </body>
-  </html>
+</html>
