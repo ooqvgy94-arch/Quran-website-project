@@ -4,85 +4,90 @@
 <meta charset="UTF-8">
 <title>قرآن كريم – تصميم فاخر</title>
 <style>
-/* الخلفية واللون العام */
-body {
+/* جسم الصفحة */
+body{
   margin:0;
   font-family:"Cairo", Tahoma, Arial;
   background: linear-gradient(135deg,#4b0082,#8a2be2);
   color:white;
+  text-align:center;
+  overflow-x:hidden; /* يمنع تكبير الشاشة أفقيًا */
+  font-size:27px; /* الخط الرئيسي */
 }
 
 /* الهيدر */
-header {
+header{
   padding:50px 20px;
   text-align:center;
   background: rgba(0,0,0,0.3);
   box-shadow: 0 5px 15px rgba(0,0,0,0.5);
 }
-header h1 {
-  font-size:60px;
+header h1{
+  font-size:64px;
   margin:0;
   letter-spacing:2px;
-  text-shadow: 0 0 15px #ffdd00;
+  text-shadow:0 0 15px #ffd700;
 }
-header p {
-  font-size:26px;
-  color:#ffdd88;
+header p{
+  font-size:27px;
+  color:#ffd700;
+  text-shadow:0 0 10px #fff;
 }
 
-/* الحاويات */
-.container {
-  max-width:1000px;
+/* الحاويات الرئيسية ثابتة */
+.container{
+  width:1000px;
   margin:30px auto;
   display:grid;
-  grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap:25px;
-  padding:0 20px;
 }
 
-/* البطاقات */
-.card {
-  background: rgba(0,0,0,0.6);
+/* البطاقات المميزة */
+.card{
+  background: radial-gradient(circle,#0f4567,#011220);
   border-radius:25px;
   padding:30px;
   box-shadow:0 15px 40px rgba(0,0,0,0.7);
   transition: transform 0.3s;
 }
-.card:hover {
+.card:hover{
   transform: scale(1.05);
 }
-.card h2 {
-  font-size:28px;
+.card h2{
+  font-size:27px;
   margin-bottom:20px;
   color:#ffd700;
   text-shadow:0 0 5px #fff;
 }
-.card select, .card button {
+
+/* القوائم والأزرار */
+select, button{
   width:90%;
-  font-size:22px;
+  font-size:27px;
   padding:12px;
-  border-radius:12px;
+  border-radius:15px;
   margin-bottom:15px;
   border:none;
 }
-.card button {
+button{
   background: linear-gradient(45deg,#ffd700,#ff8c00);
   font-weight:bold;
   cursor:pointer;
   color:#000;
   text-shadow:0 0 5px #fff;
 }
-audio {
+audio{
   width:100%;
   height:50px;
   margin-top:10px;
 }
 
-/* فوتر */
-footer {
+/* الفوتر */
+footer{
   text-align:center;
   padding:30px;
-  font-size:20px;
+  font-size:27px;
   background: rgba(0,0,0,0.4);
   margin-top:30px;
 }
@@ -97,7 +102,7 @@ footer {
 </header>
 
 <div class="container">
-  <!-- اختيار القارئ -->
+
   <div class="card">
     <h2>🎙️ اختيار القارئ</h2>
     <select id="reciter">
@@ -111,7 +116,6 @@ footer {
     </select>
   </div>
 
-  <!-- اختيار السورة -->
   <div class="card">
     <h2>📘 اختيار السورة</h2>
     <select id="surah">
@@ -123,14 +127,12 @@ footer {
     </select>
   </div>
 
-  <!-- تشغيل الصوت -->
   <div class="card">
     <h2>▶️ تشغيل السورة</h2>
     <button onclick="playAudio()">تشغيل</button>
     <audio id="player" controls></audio>
   </div>
 
-  <!-- مسبحة -->
   <div class="card">
     <h2>📿 مسبحة إلكترونية</h2>
     <p>عدد التسبيحات: <span id="tasbeehCount">0</span></p>
@@ -138,13 +140,11 @@ footer {
     <button onclick="resetTasbeeh()">تصفير</button>
   </div>
 
-  <!-- القبلة -->
   <div class="card">
     <h2>🕋 اتجاه القبلة</h2>
     <p id="qibla">جارٍ تحديد القبلة...</p>
   </div>
 
-  <!-- أذكار -->
   <div class="card">
     <h2>🕌 أذكار</h2>
     <p>سبحان الله – الحمد لله – الله أكبر …</p>
@@ -168,7 +168,6 @@ const base = {
   minshawi:"audio/minshawi/",
   basfar:"audio/basfar/"
 };
-
 function playAudio(){
   const r = document.getElementById("reciter").value;
   const s = document.getElementById("surah").value;
@@ -178,21 +177,20 @@ function playAudio(){
 }
 
 // 🔹 مسبحة
-let count = 0;
-function addTasbeeh(){ count++; document.getElementById("tasbeehCount").innerText=count; }
-function resetTasbeeh(){ count=0; document.getElementById("tasbeehCount").innerText=count; }
+let count=0;
+function addTasbeeh(){count++;document.getElementById("tasbeehCount").innerText=count;}
+function resetTasbeeh(){count=0;document.getElementById("tasbeehCount").innerText=count;}
 
 // 🔹 القبلة
 if(navigator.geolocation){
   navigator.geolocation.getCurrentPosition(pos=>{
     const qibla = document.getElementById("qibla");
-    qibla.innerText = "اتجاه القبلة يقدر حسابياً على حسب موقعك";
+    qibla.innerText="اتجاه القبلة يقدر حسابياً على حسب موقعك";
   });
 }else{
   document.getElementById("qibla").innerText="غير مدعوم";
 }
 
 </script>
-
 </body>
-      </html>
+        </html>
