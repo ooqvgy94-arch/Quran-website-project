@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>قرآن كريم – موقع معجزة</title>
 <style>
-body {
+body{
   margin:0;
   font-family: "Cairo", Tahoma, Arial;
   background: linear-gradient(160deg,#0b2c3d,#102a43);
@@ -12,64 +12,82 @@ body {
   text-align:center;
 }
 
-header {
+header{
   padding:50px 20px;
 }
 
-header h1 {
-  font-size:64px;
+header h1{
+  font-size:70px;
   margin:0;
-  letter-spacing:2px;
+  letter-spacing:3px;
+  text-shadow: 0 0 20px #ffd700;
 }
 
-header p {
-  font-size:28px;
+header p{
+  font-size:32px;
   color:#ffd700;
+  text-shadow:0 0 10px #ffdd88;
 }
 
-.panel {
-  max-width:900px;
-  margin:40px auto;
-  padding:40px;
-  border-radius:30px;
-  background:rgba(0,0,0,.6);
-  box-shadow:0 20px 60px rgba(0,0,0,.7);
+/* البطاقات الكبيرة والدائرية */
+.panel{
+  max-width:1000px;
+  margin:30px auto;
+  display:grid;
+  grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+  gap:25px;
+  padding:20px;
 }
 
-.panel select, .panel button {
-  width:100%;
+.card{
+  background: radial-gradient(circle,#0f4567,#011220);
+  border-radius:25px;
+  padding:30px;
+  box-shadow:0 20px 50px rgba(0,0,0,0.8);
+  transition: transform 0.3s;
+}
+
+.card:hover{
+  transform: scale(1.05);
+}
+
+.card h2{
+  font-size:30px;
+  margin-bottom:20px;
+  color:#ffd700;
+  text-shadow:0 0 8px #fff;
+}
+
+select, button{
+  width:90%;
+  font-size:24px;
   padding:15px;
-  font-size:22px;
   border-radius:15px;
   margin-bottom:15px;
   border:none;
 }
 
-.panel button {
-  background:#ffd700;
+button{
+  background: linear-gradient(45deg,#ffd700,#ff8c00);
   font-weight:bold;
   cursor:pointer;
+  color:#000;
+  text-shadow: 0 0 5px #fff;
 }
 
-.card {
-  background:rgba(255,255,255,0.08);
-  border-radius:20px;
-  padding:25px;
-  margin-bottom:20px;
-  text-align:center;
-  box-shadow:0 10px 30px rgba(0,0,0,.5);
-}
-
-audio {
+/* الصوت */
+audio{
   width:100%;
   height:60px;
-  margin-top:10px;
+  margin-top:15px;
 }
 
-footer {
-  padding:30px;
-  font-size:20px;
+footer{
+  padding:40px;
+  font-size:24px;
   opacity:.9;
+  background: rgba(0,0,0,0.4);
+  margin-top:30px;
 }
 </style>
 </head>
@@ -83,54 +101,60 @@ footer {
 
 <div class="panel">
 
-  <label>🎙️ اختر القارئ:</label>
-  <select id="reciter">
-    <option value="maher">ماهر المعيقلي</option>
-    <option value="sudais">عبد الرحمن السديس</option>
-    <option value="ajmi">أحمد العجمي</option>
-    <option value="husary">الحصري</option>
-    <option value="shuraim">سعود الشريم</option>
-    <option value="minshawi">المنشاوي</option>
-    <option value="basfar">عبدالله بصفر</option>
-    <!-- يمكن إضافة حتى 30 قارئ -->
-  </select>
+  <div class="card">
+    <h2>🎙️ اختيار القارئ</h2>
+    <select id="reciter">
+      <option value="maher">ماهر المعيقلي</option>
+      <option value="sudais">عبد الرحمن السديس</option>
+      <option value="ajmi">أحمد العجمي</option>
+      <option value="husary">الحصري</option>
+      <option value="shuraim">سعود الشريم</option>
+      <option value="minshawi">المنشاوي</option>
+      <option value="basfar">عبدالله بصفر</option>
+      <!-- يمكن إضافة حتى 30 قارئ -->
+    </select>
+  </div>
 
-  <label>📘 اختر السورة:</label>
-  <select id="surah">
-    <option value="001">الفاتحة</option>
-    <option value="002">البقرة</option>
-    <option value="003">آل عمران</option>
-    <option value="004">النساء</option>
-    <option value="005">المائدة</option>
-    <!-- أضف باقي 114 سورة حسب الحاجة -->
-  </select>
+  <div class="card">
+    <h2>📘 اختيار السورة</h2>
+    <select id="surah">
+      <option value="001">الفاتحة</option>
+      <option value="002">البقرة</option>
+      <option value="003">آل عمران</option>
+      <option value="004">النساء</option>
+      <option value="005">المائدة</option>
+      <!-- أضف باقي السور لاحقًا -->
+    </select>
+  </div>
 
-  <button onclick="playAudio()">▶️ تشغيل السورة</button>
+  <div class="card">
+    <h2>▶️ تشغيل السورة</h2>
+    <button onclick="playAudio()">تشغيل</button>
+    <audio id="player" controls></audio>
+  </div>
 
-  <audio id="player" controls></audio>
+  <div class="card">
+    <h2>📿 مسبحة إلكترونية</h2>
+    <p>عدد التسبيحات: <span id="tasbeehCount">0</span></p>
+    <button onclick="addTasbeeh()">تسبيح +1</button>
+    <button onclick="resetTasbeeh()">تصفير</button>
+  </div>
 
-</div>
+  <div class="card">
+    <h2>🕋 اتجاه القبلة</h2>
+    <p id="qibla">جارٍ تحديد القبلة...</p>
+  </div>
 
-<div class="card">
-  <h2>📿 مسبحة إلكترونية</h2>
-  <p>عدد التسبيحات: <span id="tasbeehCount">0</span></p>
-  <button onclick="addTasbeeh()">تسبيح +1</button>
-  <button onclick="resetTasbeeh()">تصفير</button>
-</div>
+  <div class="card">
+    <h2>🕌 أذكار</h2>
+    <p>سبحان الله – الحمد لله – الله أكبر …</p>
+  </div>
 
-<div class="card">
-  <h2>🕌 اتجاه القبلة</h2>
-  <p id="qibla">جارٍ تحديد القبلة...</p>
-</div>
+  <div class="card">
+    <h2>📻 إذاعة القرآن</h2>
+    <p>تشغيل مستمر لكل السور (تجريبي)</p>
+  </div>
 
-<div class="card">
-  <h2>📻 إذاعة القرآن</h2>
-  <p>تشغيل تلقائي لكل السور (تجريبي)</p>
-</div>
-
-<div class="card">
-  <h2>🕋 أذكار</h2>
-  <p>اللهم صل على محمد…</p>
 </div>
 
 <footer>
@@ -139,7 +163,7 @@ footer {
 </footer>
 
 <script>
-// 🟢 الصوت
+// 🔊 الصوت
 const base = {
   maher:"audio/maher/",
   sudais:"audio/sudais/",
@@ -158,16 +182,14 @@ function playAudio(){
   p.play();
 }
 
-// 🟢 مسبحة
+// 🔹 مسبحة
 let count = 0;
 function addTasbeeh(){ count++; document.getElementById("tasbeehCount").innerText=count; }
 function resetTasbeeh(){ count=0; document.getElementById("tasbeehCount").innerText=count; }
 
-// 🟢 اتجاه القبلة
+// 🔹 القبلة
 if(navigator.geolocation){
   navigator.geolocation.getCurrentPosition(pos=>{
-    const lat = pos.coords.latitude;
-    const lon = pos.coords.longitude;
     const qibla = document.getElementById("qibla");
     qibla.innerText = "اتجاه القبلة يقدر حسابياً على حسب موقعك";
   });
@@ -178,4 +200,4 @@ if(navigator.geolocation){
 </script>
 
 </body>
-    </html>
+  </html>
