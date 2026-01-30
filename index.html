@@ -10,8 +10,7 @@ body{
   background: linear-gradient(135deg,#4b0082,#8a2be2);
   color:white;
   text-align:center;
-  overflow-x:hidden;
-  font-size:72px; /* الخط الرئيسي */
+  font-size:72px;
 }
 header{
   padding:50px 20px;
@@ -47,12 +46,6 @@ header p{
   margin-bottom:20px;
   color:#ffd700;
   text-shadow:0 0 5px #fff;
-}
-.card img{
-  width:80%;
-  max-width:500px;
-  border-radius:20px;
-  margin:20px 0;
 }
 select, button{
   width:90%;
@@ -104,6 +97,7 @@ footer{
       <option value="minshawi">المنشاوي</option>
       <option value="basfar">عبدالله بصفر</option>
     </select>
+    <p style="font-size:35px;color:#fff;">*الصوت يعمل الآن مع ماهر المعيقلي فقط*</p>
   </div>
 
   <!-- اختيار السورة -->
@@ -286,26 +280,16 @@ footer{
 </footer>
 
 <script>
-// الصوت لكل قارئ
-const base = {
-  maher:{}, sudais:{}, ajmi:{}, husary:{}, shuraim:{}, minshawi:{}, basfar:{}
-};
+// الصوت يعمل الآن مع ماهر المعيقلي فقط
+const base={};
 for(let i=1;i<=114;i++){
-  let num = i.toString().padStart(3,'0');
-  base.maher[num]=`https://server12.mp3quran.net/maher/${num}.mp3`;
-  base.sudais[num]=`https://server12.mp3quran.net/sudais/${num}.mp3`;
-  base.ajmi[num]=`https://server12.mp3quran.net/ajmi/${num}.mp3`;
-  base.husary[num]=`https://server12.mp3quran.net/husary/${num}.mp3`;
-  base.shuraim[num]=`https://server12.mp3quran.net/shuraim/${num}.mp3`;
-  base.minshawi[num]=`https://server12.mp3quran.net/minshawi/${num}.mp3`;
-  base.basfar[num]=`https://server12.mp3quran.net/basfar/${num}.mp3`;
+  let num=i.toString().padStart(3,'0');
+  base[num]=`https://server12.mp3quran.net/maher/${num}.mp3`;
 }
-
 function playAudio(){
-  const r=document.getElementById("reciter").value;
   const s=document.getElementById("surah").value;
   const p=document.getElementById("player");
-  p.src=base[r][s];
+  p.src=base[s];
   p.play();
 }
 
@@ -325,14 +309,14 @@ if(navigator.geolocation){
 
 // التاريخ هجري وميلادي
 function updateDate(){
-  const today = new Date();
-  const options = { weekday:'long', year:'numeric', month:'long', day:'numeric' };
-  const hijri = new Intl.DateTimeFormat('ar-u-ca-islamic',options).format(today);
-  const gregorian = new Intl.DateTimeFormat('ar',options).format(today);
+  const today=new Date();
+  const options={ weekday:'long', year:'numeric', month:'long', day:'numeric' };
+  const hijri=new Intl.DateTimeFormat('ar-u-ca-islamic',options).format(today);
+  const gregorian=new Intl.DateTimeFormat('ar',options).format(today);
   document.getElementById("date").innerHTML=`هجري: ${hijri}<br>ميلادي: ${gregorian}`;
 }
 updateDate();
 </script>
 
 </body>
-        </html>                        
+  </html>
