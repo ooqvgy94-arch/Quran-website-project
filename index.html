@@ -2,57 +2,74 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>قرآن كريم</title>
-
+<title>قرآن كريم – موقع معجزة</title>
 <style>
-body{
+body {
   margin:0;
-  font-family:Tahoma, Arial;
-  background: radial-gradient(circle at top,#2a7fff,#000);
-  color:#fff;
+  font-family: "Cairo", Tahoma, Arial;
+  background: linear-gradient(160deg,#0b2c3d,#102a43);
+  color:white;
   text-align:center;
 }
 
-header{
-  padding:60px 20px;
+header {
+  padding:50px 20px;
 }
 
-header h1{
+header h1 {
   font-size:64px;
   margin:0;
+  letter-spacing:2px;
 }
 
-header p{
-  font-size:30px;
+header p {
+  font-size:28px;
   color:#ffd700;
 }
 
-.panel{
-  max-width:800px;
+.panel {
+  max-width:900px;
   margin:40px auto;
   padding:40px;
-  border-radius:40px;
+  border-radius:30px;
   background:rgba(0,0,0,.6);
-  box-shadow:0 30px 90px rgba(0,0,0,.8);
+  box-shadow:0 20px 60px rgba(0,0,0,.7);
 }
 
-select{
+.panel select, .panel button {
   width:100%;
-  font-size:26px;
   padding:15px;
+  font-size:22px;
   border-radius:15px;
-  margin-bottom:20px;
+  margin-bottom:15px;
+  border:none;
 }
 
-audio{
+.panel button {
+  background:#ffd700;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.card {
+  background:rgba(255,255,255,0.08);
+  border-radius:20px;
+  padding:25px;
+  margin-bottom:20px;
+  text-align:center;
+  box-shadow:0 10px 30px rgba(0,0,0,.5);
+}
+
+audio {
   width:100%;
   height:60px;
-  margin-top:20px;
+  margin-top:10px;
 }
 
-footer{
-  padding:40px;
-  font-size:22px;
+footer {
+  padding:30px;
+  font-size:20px;
+  opacity:.9;
 }
 </style>
 </head>
@@ -61,44 +78,104 @@ footer{
 
 <header>
   <h1>📖 القرآن الكريم</h1>
-  <p>تلاوة خاشعة</p>
+  <p>تلاوة خاشعة بصوت القُراء المشهورين</p>
 </header>
 
 <div class="panel">
 
-<select id="reciter">
-  <option value="maher">الشيخ ماهر المعيقلي</option>
-  <option value="sudais">الشيخ عبد الرحمن السديس</option>
-</select>
+  <label>🎙️ اختر القارئ:</label>
+  <select id="reciter">
+    <option value="maher">ماهر المعيقلي</option>
+    <option value="sudais">عبد الرحمن السديس</option>
+    <option value="ajmi">أحمد العجمي</option>
+    <option value="husary">الحصري</option>
+    <option value="shuraim">سعود الشريم</option>
+    <option value="minshawi">المنشاوي</option>
+    <option value="basfar">عبدالله بصفر</option>
+    <!-- يمكن إضافة حتى 30 قارئ -->
+  </select>
 
-<select id="surah">
-  <option value="001">سورة الفاتحة</option>
-  <option value="002">سورة البقرة</option>
-</select>
+  <label>📘 اختر السورة:</label>
+  <select id="surah">
+    <option value="001">الفاتحة</option>
+    <option value="002">البقرة</option>
+    <option value="003">آل عمران</option>
+    <option value="004">النساء</option>
+    <option value="005">المائدة</option>
+    <!-- أضف باقي 114 سورة حسب الحاجة -->
+  </select>
 
-<audio id="player" controls></audio>
+  <button onclick="playAudio()">▶️ تشغيل السورة</button>
+
+  <audio id="player" controls></audio>
 
 </div>
 
+<div class="card">
+  <h2>📿 مسبحة إلكترونية</h2>
+  <p>عدد التسبيحات: <span id="tasbeehCount">0</span></p>
+  <button onclick="addTasbeeh()">تسبيح +1</button>
+  <button onclick="resetTasbeeh()">تصفير</button>
+</div>
+
+<div class="card">
+  <h2>🕌 اتجاه القبلة</h2>
+  <p id="qibla">جارٍ تحديد القبلة...</p>
+</div>
+
+<div class="card">
+  <h2>📻 إذاعة القرآن</h2>
+  <p>تشغيل تلقائي لكل السور (تجريبي)</p>
+</div>
+
+<div class="card">
+  <h2>🕋 أذكار</h2>
+  <p>اللهم صل على محمد…</p>
+</div>
+
 <footer>
-اسم الموقع: قرآن كريم<br>
-اسم المطور: عمر أبو سيف بن فاتح
+  اسم الموقع: قرآن كريم<br>
+  اسم المطور: عمر أبو سيف بن فاتح
 </footer>
 
 <script>
-const reciter = document.getElementById("reciter");
-const surah = document.getElementById("surah");
-const player = document.getElementById("player");
+// 🟢 الصوت
+const base = {
+  maher:"audio/maher/",
+  sudais:"audio/sudais/",
+  ajmi:"audio/ajmi/",
+  husary:"audio/husary/",
+  shuraim:"audio/shuraim/",
+  minshawi:"audio/minshawi/",
+  basfar:"audio/basfar/"
+};
 
-function loadAudio(){
-  player.src = `audio/${reciter.value}/${surah.value}.mp3`;
+function playAudio(){
+  const r = document.getElementById("reciter").value;
+  const s = document.getElementById("surah").value;
+  const p = document.getElementById("player");
+  p.src = `${base[r]}${s}.mp3`;
+  p.play();
 }
 
-reciter.onchange = loadAudio;
-surah.onchange = loadAudio;
+// 🟢 مسبحة
+let count = 0;
+function addTasbeeh(){ count++; document.getElementById("tasbeehCount").innerText=count; }
+function resetTasbeeh(){ count=0; document.getElementById("tasbeehCount").innerText=count; }
 
-loadAudio();
+// 🟢 اتجاه القبلة
+if(navigator.geolocation){
+  navigator.geolocation.getCurrentPosition(pos=>{
+    const lat = pos.coords.latitude;
+    const lon = pos.coords.longitude;
+    const qibla = document.getElementById("qibla");
+    qibla.innerText = "اتجاه القبلة يقدر حسابياً على حسب موقعك";
+  });
+}else{
+  document.getElementById("qibla").innerText="غير مدعوم";
+}
+
 </script>
 
 </body>
-</html>
+    </html>
