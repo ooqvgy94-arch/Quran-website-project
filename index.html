@@ -35,31 +35,33 @@ header p{
 .container{
   width:1000px;
   margin:30px auto;
-  display:grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap:25px;
+  display:flex;
+  flex-direction:column;
+  gap:30px; /* مسافة بين الخانات */
 }
 
-/* البطاقات */
+/* الخانات المستطيلة */
 .card{
   background: radial-gradient(circle,#0f4567,#011220);
   border-radius:25px;
-  padding:30px;
-  box-shadow:0 15px 40px rgba(0,0,0,0.7);
+  padding:40px;
+  box-shadow:0 15px 50px rgba(0,0,0,0.7);
   transition: transform 0.3s;
 }
 .card:hover{
-  transform: scale(1.05);
+  transform: scale(1.03);
 }
 .card h2{
   margin-bottom:20px;
   color:#ffd700;
   text-shadow:0 0 5px #fff;
 }
+
+/* القوائم والأزرار */
 select, button{
   width:90%;
   font-size:72px;
-  padding:12px;
+  padding:15px;
   border-radius:15px;
   margin-bottom:15px;
   border:none;
@@ -96,6 +98,7 @@ footer{
 
 <div class="container">
 
+  <!-- اختيار القارئ -->
   <div class="card">
     <h2>🎙️ اختيار القارئ</h2>
     <select id="reciter">
@@ -109,6 +112,7 @@ footer{
     </select>
   </div>
 
+  <!-- اختيار السورة -->
   <div class="card">
     <h2>📘 اختيار السورة</h2>
     <select id="surah">
@@ -117,16 +121,18 @@ footer{
       <option value="003">آل عمران</option>
       <option value="004">النساء</option>
       <option value="005">المائدة</option>
-      <!-- اكمل باقي السور -->
+      <!-- أكمل باقي السور حتى 114 -->
     </select>
   </div>
 
+  <!-- تشغيل الصوت -->
   <div class="card">
     <h2>▶️ تشغيل السورة</h2>
     <button onclick="playAudio()">تشغيل</button>
     <audio id="player" controls></audio>
   </div>
 
+  <!-- مسبحة -->
   <div class="card">
     <h2>📿 مسبحة إلكترونية</h2>
     <p>عدد التسبيحات: <span id="tasbeehCount">0</span></p>
@@ -134,21 +140,37 @@ footer{
     <button onclick="resetTasbeeh()">تصفير</button>
   </div>
 
+  <!-- القبلة -->
   <div class="card">
     <h2>🕋 اتجاه القبلة</h2>
     <p id="qibla">جارٍ تحديد القبلة...</p>
   </div>
 
+  <!-- حصن المسلم -->
   <div class="card">
     <h2>🕌 حصن المسلم</h2>
-    <p>أذكار الصباح والمساء، دعاء الاستيقاظ، دعاء النوم...</p>
+    <p>
+      أذكار الصباح والمساء، دعاء الاستيقاظ، دعاء النوم، دعاء ركوب الدابة، دعاء السفر، أذكار الصلاة، وغيرها...
+    </p>
   </div>
 
+  <!-- أحكام رمضان -->
   <div class="card">
-    <h2>🌙 أشعار رمضان</h2>
-    <p>رمضان كريم، صيام مقبول، صلاة مقبولة...</p>
+    <h2>🌙 أحكام شهر رمضان</h2>
+    <p>
+      الصيام فرض على البالغ، التراويح مستحبة، الإفطار عند غروب الشمس، الدعاء مستحب، قراءة القرآن يوميًا...
+    </p>
   </div>
 
+  <!-- أشعار رمضان -->
+  <div class="card">
+    <h2>🌟 أشعار شهر رمضان</h2>
+    <p>
+      رمضان كريم، صيام مقبول، صلاة مقبولة، الأجواء الروحانية في كل وقت...
+    </p>
+  </div>
+
+  <!-- التاريخ -->
   <div class="card">
     <h2>📅 التاريخ اليوم</h2>
     <p id="date"></p>
@@ -206,4 +228,12 @@ updateDate();
 </script>
 
 </body>
-  </html>
+// التاريخ هجري وميلادي
+function updateDate(){
+  const today = new Date();
+  const options = { weekday:'long', year:'numeric', month:'long', day:'numeric' };
+  const hijri = new Intl.DateTimeFormat('ar-u-ca-islamic',options).format(today);
+  const gregorian = new Intl.DateTimeFormat('ar',options).format(today);
+  document.getElementById("date").innerHTML=`هجري: ${hijri}<br>ميلادي: ${gregorian}`;
+}
+updateDate();                                   </html>
