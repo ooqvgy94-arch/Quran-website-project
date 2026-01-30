@@ -4,15 +4,14 @@
 <meta charset="UTF-8">
 <title>قرآن كريم – تصميم فاخر</title>
 <style>
-/* جسم الصفحة */
 body{
   margin:0;
   font-family:"Cairo", Tahoma, Arial;
   background: linear-gradient(135deg,#4b0082,#8a2be2);
   color:white;
   text-align:center;
-  overflow-x:hidden; /* يمنع تكبير الشاشة أفقيًا */
-  font-size:27px; /* الخط الرئيسي */
+  overflow-x:hidden;
+  font-size:72px; /* الخط الرئيسي */
 }
 
 /* الهيدر */
@@ -23,18 +22,16 @@ header{
   box-shadow: 0 5px 15px rgba(0,0,0,0.5);
 }
 header h1{
-  font-size:64px;
   margin:0;
   letter-spacing:2px;
   text-shadow:0 0 15px #ffd700;
 }
 header p{
-  font-size:27px;
   color:#ffd700;
   text-shadow:0 0 10px #fff;
 }
 
-/* الحاويات الرئيسية ثابتة */
+/* الحاويات */
 .container{
   width:1000px;
   margin:30px auto;
@@ -43,7 +40,7 @@ header p{
   gap:25px;
 }
 
-/* البطاقات المميزة */
+/* البطاقات */
 .card{
   background: radial-gradient(circle,#0f4567,#011220);
   border-radius:25px;
@@ -55,16 +52,13 @@ header p{
   transform: scale(1.05);
 }
 .card h2{
-  font-size:27px;
   margin-bottom:20px;
   color:#ffd700;
   text-shadow:0 0 5px #fff;
 }
-
-/* القوائم والأزرار */
 select, button{
   width:90%;
-  font-size:27px;
+  font-size:72px;
   padding:12px;
   border-radius:15px;
   margin-bottom:15px;
@@ -79,7 +73,7 @@ button{
 }
 audio{
   width:100%;
-  height:50px;
+  height:60px;
   margin-top:10px;
 }
 
@@ -87,13 +81,12 @@ audio{
 footer{
   text-align:center;
   padding:30px;
-  font-size:27px;
+  font-size:50px;
   background: rgba(0,0,0,0.4);
   margin-top:30px;
 }
 </style>
 </head>
-
 <body>
 
 <header>
@@ -124,6 +117,7 @@ footer{
       <option value="003">آل عمران</option>
       <option value="004">النساء</option>
       <option value="005">المائدة</option>
+      <!-- اكمل باقي السور -->
     </select>
   </div>
 
@@ -146,20 +140,30 @@ footer{
   </div>
 
   <div class="card">
-    <h2>🕌 أذكار</h2>
-    <p>سبحان الله – الحمد لله – الله أكبر …</p>
+    <h2>🕌 حصن المسلم</h2>
+    <p>أذكار الصباح والمساء، دعاء الاستيقاظ، دعاء النوم...</p>
+  </div>
+
+  <div class="card">
+    <h2>🌙 أشعار رمضان</h2>
+    <p>رمضان كريم، صيام مقبول، صلاة مقبولة...</p>
+  </div>
+
+  <div class="card">
+    <h2>📅 التاريخ اليوم</h2>
+    <p id="date"></p>
   </div>
 
 </div>
 
 <footer>
   اسم الموقع: قرآن كريم<br>
-  اسم المطور: ابو سيف بن فاتح
+  اسم المطور: عمر أبو سيف بن فاتح
 </footer>
 
 <script>
-// 🔊 الصوت
-const base = {
+// الصوت
+const base={
   maher:"audio/maher/",
   sudais:"audio/sudais/",
   ajmi:"audio/ajmi/",
@@ -169,28 +173,37 @@ const base = {
   basfar:"audio/basfar/"
 };
 function playAudio(){
-  const r = document.getElementById("reciter").value;
-  const s = document.getElementById("surah").value;
-  const p = document.getElementById("player");
-  p.src = `${base[r]}${s}.mp3`;
+  const r=document.getElementById("reciter").value;
+  const s=document.getElementById("surah").value;
+  const p=document.getElementById("player");
+  p.src=`${base[r]}${s}.mp3`;
   p.play();
 }
 
-// 🔹 مسبحة
+// مسبحة
 let count=0;
 function addTasbeeh(){count++;document.getElementById("tasbeehCount").innerText=count;}
 function resetTasbeeh(){count=0;document.getElementById("tasbeehCount").innerText=count;}
 
-// 🔹 القبلة
+// القبلة
 if(navigator.geolocation){
   navigator.geolocation.getCurrentPosition(pos=>{
-    const qibla = document.getElementById("qibla");
-    qibla.innerText="اتجاه القبلة يقدر حسابياً على حسب موقعك";
+    document.getElementById("qibla").innerText="اتجاه القبلة يقدر حسابياً على حسب موقعك";
   });
 }else{
   document.getElementById("qibla").innerText="غير مدعوم";
 }
 
+// التاريخ هجري وميلادي
+function updateDate(){
+  const today = new Date();
+  const options = { weekday:'long', year:'numeric', month:'long', day:'numeric' };
+  const hijri = new Intl.DateTimeFormat('ar-u-ca-islamic',options).format(today);
+  const gregorian = new Intl.DateTimeFormat('ar',options).format(today);
+  document.getElementById("date").innerHTML=`هجري: ${hijri}<br>ميلادي: ${gregorian}`;
+}
+updateDate();
 </script>
+
 </body>
-        </html>
+  </html>
